@@ -1,0 +1,116 @@
+.aboutproject {
+    padding: 0 70px;
+}
+
+.aboutproject__header {
+    text-align: left;
+    font-weight: 400;
+    font-size: 22px;
+    padding-top: 110px;
+    padding-bottom: 23px;
+    margin: 0;
+    border-bottom: 1px solid;
+}
+
+.aboutproject__text-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 70px 0 0;
+    margin: 0;
+}
+
+.aboutproject__text-column {
+    width: 47%;
+    padding: 0;
+    margin: 0;
+}
+
+.aboutproject__text {
+    padding: 0 0 26px;
+    margin: 0;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.aboutproject__text_header {
+    font-size: 20px;
+}
+
+.aboutproject__diagram-container {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    padding-top: 84px;
+    padding-bottom: 100px;
+}
+
+.aboutproject__diagram-element {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 121%;
+    padding: 9px 0;
+    color: #A0A0A0;
+    margin: 0;
+}
+
+.aboutproject__diagram-element_backend {
+    background-color: #000;
+    font-weight: 400;
+    color: #fff;
+}
+
+.aboutproject__diagram-element_frontend {
+    background-color: #F2F2F2;
+    font-weight: 400;
+    color: #000;
+}
+
+@media screen and (max-width: 850px) {
+    .aboutproject {
+        padding: 0 50px;
+    }
+
+    .aboutproject__header {
+        padding: 90px 0 23px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .aboutproject {
+        padding: 0 18px;
+    }
+
+    .aboutproject__text-column {
+        width: 49%;
+    }
+
+    .aboutproject__diagram-container {
+        grid-template-columns: 1fr 3fr;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .aboutproject__text-column {
+        width: 100%;
+    }
+
+    .aboutproject__text-container {
+        flex-direction: column;
+    }
+
+    .aboutproject__text {
+        font-size: 11px;
+    }
+
+    .aboutproject__text_header {
+        font-size: 18px;
+    }
+
+    .aboutproject__diagram-container {
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .aboutproject__diagram-element {
+        font-size: 11px;
+    }
+}

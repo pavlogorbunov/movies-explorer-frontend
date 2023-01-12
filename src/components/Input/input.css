@@ -1,0 +1,38 @@
+.input__label {
+    min-height: 71px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input__label-header {
+    font-size: 10px;
+    line-height: 121%;
+    margin: 0 0 5px;
+    color: #A0A0A0;
+}
+
+.input__input {
+    font-size: 14px;
+    line-height: 121%;
+    border: none;
+    border-bottom: 1px solid #E8E8E8;
+    padding-bottom: 10px;
+}
+
+.input__input:focus {
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid #000;
+}
+
+.input__error_hidden {
+    display: none;
+}
+
+.input__error {
+    color: #FF4062;
+    font-size: 10px;
+    line-height: 121%;
+    font-weight: 400;
+    margin: 6px 0;
+}

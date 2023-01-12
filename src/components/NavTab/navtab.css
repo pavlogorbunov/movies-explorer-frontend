@@ -1,0 +1,27 @@
+.navtab {
+    margin: auto;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 320px;
+}
+
+.navtab__button {
+    background-color: #E8E8E8;
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    width: 31%;
+    padding: 10px 0;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: .4s;
+}
+
+.navtab__button:hover {
+    background-color: #353535;
+    transition: .4s;
+}
+
