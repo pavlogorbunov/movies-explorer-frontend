@@ -1,8 +1,10 @@
 import React from 'react';
 import './moviescard.css';
 import cardImage from '../../images/card.jpg';
+import SaveCardButton from '../SaveCardButton/SaveCardButton';
+import DeleteCardButton from '../DeleteCardButton/DeleteCardButton';
 
-function MoviesCard({ cardData }) {
+function MoviesCard({ cardData, type }) {
     function durationTranslation(t) {
         if (t > 60) {
             return Math.floor(t / 60) + "ч " + t % 60 + "м";
@@ -17,7 +19,8 @@ function MoviesCard({ cardData }) {
                 <h3 className="card__name">{cardData.nameRU}</h3>
                 <p className="card__duration">{durationTranslation(cardData.duration)}</p>
             </div>
-            <div className="card__button"></div>
+            {type === "saved-movies" && <DeleteCardButton />}
+            {type === "movies" && <SaveCardButton />}
             <div className="card__image-container">
                 <img title={cardData.id} className="card__image" src={cardImage} alt={"Кадр из фильма " + cardData.nameRU} ></img>
             </div>

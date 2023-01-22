@@ -35,6 +35,7 @@
     flex-grow: 1;
     flex-shrink: 1;
     padding: 0;
+    margin: 0 18px 0 0;
 }
 
 .form__search:focus {
@@ -52,59 +53,69 @@
     background-image: url(../../images/search-button.svg);
     background-repeat: no-repeat;
     background-position: center;
+    transition: .4s;
+    cursor: pointer;
 
-    margin: 0 30px 0 0;
+    margin: 0 20px 0 0;
+}
+
+.form__submit-button:hover {
+    opacity: .7;
+    transition: .4s;
 }
 
 .form__checkbox-container {
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 0 30px;
-    height: 40px;
-    border-left: 1px solid #E8E8E8;
+    border-left: 1px solid #cbcbcb;
+    padding: 0 19px 0;
+    cursor: pointer;
 }
 
 .form__checkbox {
-    position: relative;
     appearance: none;
-    outline: none;
-    width: 36px;
-    height: 20px;
-    background-color: #ffffff;
-    border: 1px solid #D9DADC;
-    border-radius: 36px;
-    box-shadow: inset -20px 0 0 0 #ffffff;
-    transition-duration: 200ms;
-    margin: 0 14px 0 0;
 }
 
-.form__checkbox:after {
-    content: "";
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: 16px;
-    height: 16px;
-    background-color: transparent;
-    border-radius: 50%;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.form__checkbox:checked {
+.form__checkbox:checked ~ .form__checkbox-style {
     background-color: #2BE080;
     box-shadow: none;
 }
 
-.form__checkbox:checked:after {
-    left: 17px;
-    box-shadow: -1px 1px 2px rgba(0, 0, 0, 0.2);
-    background-color: #ffffff;
-    transition: left 200ms;
+.form__checkbox:checked ~ .form__checkbox-style::before {
+    background-color: #fff;
+    left: 18px;
+    box-shadow: none;
+}
+
+.form__checkbox-style {
+    display: block;
+    width: 36px;
+    height: 20px;
+    position: relative;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: inset -1px 0px 3px rgb(234, 234, 234);
+    transition: .3s;
+}
+
+.form__checkbox-style::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background-color: #fff;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px rgb(203, 203, 203);
+    transition: .3s;
 }
 
 .form__label {
     font-size: 13px;
     font-weight: 400;
+    padding: 0 0 0 15px;
 }
 
 @media screen and (max-width: 850px) {
@@ -117,7 +128,7 @@
     .form {
         flex-direction: column;
         background-color: #fff;
-        border-radius: none;
+        border-radius: 0;
     }
 
     .form__searchbar-container {
@@ -130,7 +141,7 @@
     }
 
     .form__search {
-        margin: 0 auto 0 0;
+        margin: 0 15px 0 0;
         width: 200px;
         flex-shrink: 1;
     }
@@ -149,7 +160,7 @@
     }
 
     .form__label {
-        padding: 0;
+        padding: 0 0 0 13px;
         margin: 0;
     }
 }

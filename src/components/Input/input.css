@@ -1,10 +1,10 @@
-.input__label {
+.input {
     min-height: 71px;
     display: flex;
     flex-direction: column;
 }
 
-.input__label-header {
+.input-header {
     font-size: 10px;
     line-height: 121%;
     margin: 0 0 5px;
@@ -35,4 +35,14 @@
     line-height: 121%;
     font-weight: 400;
     margin: 6px 0;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 450px) {
+    .input {
+        width: 100%;
+    }
 }

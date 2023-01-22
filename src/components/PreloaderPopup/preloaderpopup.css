@@ -1,4 +1,4 @@
-.popup__overlay {
+.popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,6 +10,6 @@
     align-items: center;
 }
 
-.popup__overlay_hidden {
+.popup-overlay_hidden {
     display: none;
 }

@@ -4,7 +4,7 @@ import './preloaderpopup.css'
 
 function PreloaderPopup ({ visible }) {
     return (
-        <div className={"popup__overlay " + (!visible && "popup__overlay_hidden")}>
+        <div className={"popup-overlay " + (!visible && "popup-overlay_hidden")}>
             <Preloader />
         </div>
     )

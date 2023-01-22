@@ -6,6 +6,7 @@ import Movies from '../Movies/Movies';
 import AuthForm from '../AuthForm/AuthForm';
 import Account from '../Account/Account';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import NotFound from '../NotFound/NotFound';
 import './App.css';
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
       <Route path="/saved-movies" element={<SavedMovies />} />
       <Route path="/sign-up" element={<AuthForm type='sign-up' />} />
       <Route path="/sign-in" element={<AuthForm type='sign-in' />} />
-      <Route path="/account" element={<Account currentName={'Павел'} currentEmail={'email@gmail.com'} edit={false} />}></Route>
+      <Route path="/account" element={<Account currentName={'Павел'} currentEmail={'email@gmail.com'} edit={false} />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

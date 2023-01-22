@@ -8,10 +8,10 @@ import movies from '../../constants/constants';
 function Movies() {
     return (
         <>
-            <Header nav={true} loggedIn={true}/>
+            <Header nav={true} loggedIn={true} />
             <main className="main">
                 <MovieSearchForm />
-                <MoviesCardList cards={movies} n={9}/>
+                <MoviesCardList cards={movies} n={9} type={'movies'} />
             </main>
             <Footer />
         </>

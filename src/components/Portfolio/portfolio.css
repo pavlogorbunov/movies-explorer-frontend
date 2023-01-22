@@ -17,25 +17,27 @@
     margin: 0;
 }
 
-.portfolio__list-item {
+.portfolio__listitem {
     display: flex;
     list-style: none;
     border-bottom: 1px solid #E8E8E8;
 }
 
-.portfolio__list-item:last-child {
+.portfolio__listitem:last-child {
     border: none;
 }
 
-.portfolio__list-item__text {
+.portfolio__listitem-text {
     text-align: left;
     font-size: 30px;
     line-height: 167%;
+    text-decoration: none;
+    color: #000;
     margin: 0;
     padding: 19px 0;
 }
 
-.portfolio__list-item__arrow {
+.portfolio__listitem-arrow {
     margin: auto 0 auto auto;
     padding: 0;
     font-size: 30px;
@@ -46,11 +48,11 @@
         font-size: 14px;
     }
 
-    .portfolio__list-item__text {
+    .portfolio__listitem-text {
         font-size: 18px;
     }
 
-    .portfolio__list-item__arrow {
+    .portfolio__listitem-arrow {
         font-size: 18px;
     }
 }

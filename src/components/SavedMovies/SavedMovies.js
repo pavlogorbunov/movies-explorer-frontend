@@ -1,7 +1,7 @@
-import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import MovieSearchForm from '../MovieSearchForm/MovieSearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Footer from '../Footer/Footer';
 import './savedmovies.css';
 import movies from '../../constants/constants';
 
@@ -15,7 +15,7 @@ function Movies() {
             <Header nav={true} loggedIn={true}/>
             <main className="main">
                 <MovieSearchForm />
-                <MoviesCardList cards={savedMovies} n={6} />
+                <MoviesCardList cards={savedMovies} n={6} type={'saved-movies'} />
             </main>
             <Footer />
         </>
