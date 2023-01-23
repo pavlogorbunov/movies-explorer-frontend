@@ -1,0 +1,18 @@
+.burgerbutton {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background-color: transparent;
+    background-image: url(../../images/burger-button.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    display: none;
+}
+
+@media screen and (max-width: 850px) {
+    .burgerbutton {
+        display: block;
+    }
+}
