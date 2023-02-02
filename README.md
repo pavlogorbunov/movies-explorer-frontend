@@ -2,4 +2,4 @@
 
 ### [Ссылка](https://disk.yandex.ru/d/_qqgHQvBJIJ4IA) на макет
 
-### Ссылка на пул-реквест
+### [Ссылка](https://github.com/pavlogorbunov/movies-explorer-frontend/pull/2) на пул-реквест
