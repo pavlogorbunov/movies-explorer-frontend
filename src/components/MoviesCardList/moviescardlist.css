@@ -10,6 +10,7 @@
     grid-template-columns: repeat(3, 1fr);
     padding: 0;
     gap: 30px 24px;
+    margin: 0 0 80px;
 }
 
 .cardlist__morebutton {
@@ -21,11 +22,17 @@
     font-size: 12px;
     margin: 80px 0 160px;
     transition: .3s;
+    cursor: pointer;
 }
 
 .cardlist__morebutton:hover {
     background-color: #E8E8E8;
     transition: .3s;
+}
+
+.cardlist__result {
+    margin: 40px auto;
+    color: red;
 }
 
 @media screen and (max-width: 850px) {

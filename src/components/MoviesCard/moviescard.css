@@ -71,8 +71,19 @@
 
 .card__image-container {
     grid-area: img;
+    padding-top: 60%;
+    position: relative;
+    width: 100%;
 }
 
 .card__image {
-    max-width: 100%;
+    position: absolute;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    object-fit: cover;
+    object-position: center;
+    padding: 0;
+    top: 0;
+    width: 100%;
 }
