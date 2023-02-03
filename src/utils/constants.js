@@ -1,6 +1,6 @@
 const accesOptions = {
-    // baseUrl: 'https://api.movies-explorer.pvg.nomoredomains.club',
-    baseUrl: 'http://localhost:4000',
+    baseUrl: 'https://api.movies-explorer.pvg.nomoredomains.club',
+    // baseUrl: 'http://localhost:4000',
     reqOptions: {
         credentials: 'include',
         mode: 'cors',
