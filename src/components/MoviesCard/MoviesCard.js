@@ -3,7 +3,7 @@ import React from 'react';
 import './moviescard.css';
 
 function MoviesCard({ cardData, type, durationTranslation, onCardLike, onCardDelete, refreshLocalStorage }) {
-    var cardButtonClass = "card__button";
+    let cardButtonClass = "card__button";
     if (cardData.isLiked) cardButtonClass += " card__button_selected"
 
     function onMovieLike(evt) {

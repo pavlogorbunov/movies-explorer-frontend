@@ -4,8 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 import './burgermenu.css';
 
 function BurgerMenu({ visible, onClose }) {
-    var buttonClass = "burger-overlay burger-overlay_hidden";
-    var menuClass = "burgermenu burgermenu_hidden";
+    let buttonClass = "burger-overlay burger-overlay_hidden";
+    let menuClass = "burgermenu burgermenu_hidden";
     if(visible) {
         buttonClass = "burger-overlay";
         menuClass = "burgermenu";
@@ -16,9 +16,9 @@ function BurgerMenu({ visible, onClose }) {
     const itemClassSimple = "burgermenu__navlist-item";
     const itemClassCurrent = "burgermenu__navlist-item burgermenu__navlist-item_current";
 
-    var mainClass = itemClassSimple;
-    var moviesClass = itemClassSimple;
-    var savedMoviesClass = itemClassSimple;
+    let mainClass = itemClassSimple;
+    let moviesClass = itemClassSimple;
+    let savedMoviesClass = itemClassSimple;
 
     if(location.pathname === "/") {
         mainClass = itemClassCurrent;

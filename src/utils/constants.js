@@ -23,4 +23,6 @@ const validationOptions = {
     }
 }
 
-export { accesOptions, validationOptions };
+const MOVIES_FETCH_ERROR = 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.';
+
+export { accesOptions, validationOptions, MOVIES_FETCH_ERROR };

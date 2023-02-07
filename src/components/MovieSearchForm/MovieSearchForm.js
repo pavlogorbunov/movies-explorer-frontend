@@ -29,7 +29,7 @@ function MovieSearchForm({ setMovies, toggleShortsCheckbox, shorts, setSearchWor
         const searchWord = JSON.parse(localStorage.getItem('searchWord'));
         localStorage.setItem('searchWord', JSON.stringify({...searchWord, [type]: value}));
         const n = JSON.parse(localStorage.getItem('n'));
-        localStorage.setItem('n', JSON.stringify({...n, [type]: null}));
+        localStorage.setItem('n', JSON.stringify({...n, [type]: 0}));
     }
 
     return (

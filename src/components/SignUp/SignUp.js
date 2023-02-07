@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Logo from '../Logo/Logo';
 import Preloader from '../Preloader/Preloader';
@@ -11,16 +11,14 @@ function SignUp({ action }) {
     const [formErrorText, setFormErrorText] = React.useState('');
     const [isPreloaderOpen, setIsPreloaderOpen] = React.useState(false);
 
-    const navigate = useNavigate();
-
     function handleSignUp(e) {
         e.preventDefault();
         setIsPreloaderOpen(true);
         action(values.name, values.email, values.password)
-            .then(() => {
-                setIsPreloaderOpen(false);
-                navigate('/sign-in');
-            })
+            // .then(() => {
+            //     setIsPreloaderOpen(false);
+            //     navigate('/sign-in');
+            // })
             .catch((err) => {
                 setIsPreloaderOpen(false);
                 setFormErrorText(err.message);

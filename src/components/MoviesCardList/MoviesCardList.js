@@ -3,38 +3,39 @@ import React from 'react';
 import './moviescardlist.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { mainApi } from '../../utils/MainApi';
-import MoviesPreloader from '../MoviesPreloader/MoviesPreloader';
 
-function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalStorage, onCardDelete, isPreloaderOpen }) {
+function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalStorage, onCardDelete, isPreloaderOpen, error }) {
     const movies = JSON.parse(localStorage.getItem('movies'));
     const [n, setN] = React.useState({});
+    let moviesList = [];
+
+    if (movies) {
+        moviesList = movies.filter(isShort).filter(search).map(el => { return { ...el, "isLiked": savedMovies.includes(el.id) } });
+    }
 
     React.useEffect(() => {
         renewN();
     }, [type, searchWord]); // eslint-disable-line
 
     function renewN() {
-        const n = JSON.parse(localStorage.getItem('n'));
+        const nFromLocalStorage = JSON.parse(localStorage.getItem('n'));
         const w = window.innerWidth;
-        if (!n) {
-            const n = {};
-            n[type] = 12;
-            if (w < 728) n[type] = 8;
-            if (w < 480) n[type] = 5;
-            localStorage.setItem('n', JSON.stringify(n));
-        } else if (!n[type]) {
-            n[type] = 12;
-            if (w < 728) n[type] = 8;
-            if (w < 480) n[type] = 5;
-            localStorage.setItem('n', JSON.stringify(n));
+        if (!nFromLocalStorage) {
+            const newN = {};
+            newN[type] = 12;
+            if (w < 728) newN[type] = 8;
+            if (w < 480) newN[type] = 5;
+            localStorage.setItem('n', JSON.stringify(newN));
+            setN(newN);
+        } else if ((!nFromLocalStorage[type]) || (nFromLocalStorage[type] === 0)) {
+            nFromLocalStorage[type] = 12;
+            if (w < 728) nFromLocalStorage[type] = 8;
+            if (w < 480) nFromLocalStorage[type] = 5;
+            localStorage.setItem('n', JSON.stringify(nFromLocalStorage));
+            setN(nFromLocalStorage);
+        } else {
+            setN(nFromLocalStorage);
         }
-        setN(n);
-    }
-
-    var moviesList = [];
-
-    if (movies) {
-        moviesList = movies.filter(isShort).filter(search).map(el => { return { ...el, "isLiked": savedMovies.includes(el.id) } });
     }
 
     function durationTranslation(t) {
@@ -43,7 +44,7 @@ function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalSto
     }
 
     function search(movieData) {
-        if (!searchWord || searchWord === '   ') return true;
+        if (!searchWord || searchWord === '***') return true;
         return movieData.nameRU.toLowerCase().includes(searchWord.toLowerCase()) ||
             movieData.nameEN.toLowerCase().includes(searchWord.toLowerCase()) ||
             movieData.description.toLowerCase().includes(searchWord.toLowerCase()) ||
@@ -75,12 +76,14 @@ function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalSto
     return (
         <>
             <section className="cardlist">
-                <MoviesPreloader isOpen={isPreloaderOpen}/>
-                {type === 'movies' && moviesList.length === 0 && !isPreloaderOpen &&
+                {type === 'movies' && moviesList.length === 0 && !isPreloaderOpen && !error &&
                     <div className='cardlist__result'>Ничего не найдено</div>
                 }
-                {type === "saved-movies" && moviesList.filter((movie) => { return movie.isLiked }).length === 0 && !isPreloaderOpen &&
+                {type === "saved-movies" && moviesList.filter((movie) => { return movie.isLiked }).length === 0 && !isPreloaderOpen && !error &&
                     <div className='cardlist__result'>Ничего не найдено</div>
+                }
+                {error &&
+                    <div className='cardlist__result'>{error}</div>
                 }
                 <ul className="cardlist__list">
                     {type === "movies" &&
@@ -94,7 +97,7 @@ function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalSto
                                 onCardDelete={onCardDelete}
                                 refreshLocalStorage={refreshLocalStorage} />
                         )).slice(0, n[type])}
-                    {type === "saved-movies" &&
+                    {type === "saved-movies" && moviesList.length > 0 &&
                         moviesList.filter((movie) => { return movie.isLiked }).map(card => (
                             <MoviesCard
                                 cardData={card}
@@ -107,7 +110,8 @@ function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalSto
                         )).slice(0, n[type])}
                 </ul>
                 {type === 'movies' && moviesList.length > n.movies &&
-                    <button className="cardlist__morebutton" onClick={handleMoreButtonClick}>Ещё</button>}
+                    <button className="cardlist__morebutton" onClick={handleMoreButtonClick}>Ещё</button>
+                }
                 {type === "saved-movies" && savedMovies.length > n['saved-movies'] &&
                     <button className="cardlist__morebutton" onClick={handleMoreButtonClick}>Ещё</button>
                 }

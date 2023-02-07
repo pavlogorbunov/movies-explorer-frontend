@@ -22,14 +22,24 @@ function App() {
 
   React.useEffect(() => {
     authorization.checkToken()
-          .then((data) => {
-            setAuth({ email: data.email });
-            setCurrentUser({ name: data.name, email: data.email, _id: data._id });
-          })
+      .then((data) => {
+        setAuth({ email: data.email });
+        setCurrentUser({ name: data.name, email: data.email, _id: data._id });
+      }).catch((err) => {});
   }, [])
 
   function onSignUp(name, email, password) {
-    return authorization.signUp({ name, email, password });
+    return authorization.signUp({ name, email, password }).then(() => {
+      authorization.signIn({ email, password })
+        .then(() => {
+          authorization.checkToken()
+            .then((data) => {
+              setAuth({ email: data.email });
+              setCurrentUser({ name: data.name, email: data.email, _id: data._id });
+              navigate('/movies');
+            })
+        });
+    });
   }
 
   function onSignIn(email, password) {

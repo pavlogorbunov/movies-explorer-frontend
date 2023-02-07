@@ -7,6 +7,8 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import './movies.css';
 import { mainApi } from '../../utils/MainApi';
 import getMovies from '../../utils/MoviesApi';
+import MoviesPreloader from '../MoviesPreloader/MoviesPreloader';
+import { MOVIES_FETCH_ERROR } from '../../utils/constants';
 
 function Movies({ type }) {
     const [moviesShown, setMoviesShown] = useState(false);
@@ -14,39 +16,51 @@ function Movies({ type }) {
     const [shorts, setShorts] = useState(false);
     const [searchWord, setSearchWord] = useState('');
     const [isPreloaderOpen, setIsPreloaderOpen] = useState(false);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        if (!localStorage.getItem('movies')) {
-            setIsPreloaderOpen(true);
-            getMovies().then(res => {
-                res.json().then(res => {
-                    localStorage.setItem('movies', JSON.stringify(res));
-                }).then(() => {
-                    refreshLocalStorage();
-                }).finally(() => {
+        if (moviesShown) {
+            if (!localStorage.getItem('movies')) {
+                setIsPreloaderOpen(true);
+                getMovies().then(res => {
+                    res.json().then(res => {
+                        localStorage.setItem('movies', JSON.stringify(res));
+                    }).then(() => {
+                        refreshLocalStorage().then(() => {
+                            setIsPreloaderOpen(false);
+                            setError('')
+                        });
+                    })
+                    .catch(() => {
+                        setError(MOVIES_FETCH_ERROR);
+                    })
+                    .finally(() => {
+                        if (type === 'saved-movies') setMoviesShown(true);
+                        setIsPreloaderOpen(false);
+                    });
+                });
+            } else {
+                setIsPreloaderOpen(true);
+                refreshLocalStorage().then(() => {
+                    if (type === 'saved-movies') setMoviesShown(true);
                     setIsPreloaderOpen(false);
                 });
-            });
-        } else {
-            refreshLocalStorage();
-        }
-
-        const s = JSON.parse(localStorage.getItem('shorts'));
-        if (s) {
-            if (s[type]) {
-                setShorts(s[type]);
-            } else {
-                setShorts(false);
             }
+
+            const s = JSON.parse(localStorage.getItem('shorts'));
+            if (s) {
+                if (s[type]) {
+                    setShorts(s[type]);
+                } else {
+                    setShorts(false);
+                }
+            }
+
+            const search = JSON.parse(localStorage.getItem('searchWord'));
+            if (search && (search[type])) setSearchWord(search[type]);
+            else setSearchWord('');
         }
-
-        const search = JSON.parse(localStorage.getItem('searchWord'));
-        if (search && (search[type])) setSearchWord(search[type]);
-        else setSearchWord('');
-
-        if (type === 'saved-movies') setMoviesShown(true);
-
-    }, [type, searchWord]);
+    }, [type, searchWord, moviesShown]);
 
     function toggleShortsCheckbox() {
         const s = JSON.parse(localStorage.getItem('shorts'));
@@ -55,7 +69,7 @@ function Movies({ type }) {
     }
 
     function refreshLocalStorage() {
-        mainApi.getSavedMovies().then(res => {
+        return mainApi.getSavedMovies().then(res => {
             setSavedMovies(res.map(el => el.movieId));
             localStorage.setItem('saved-movies', JSON.stringify(res.map(el => el.movieId)));
         });
@@ -78,7 +92,10 @@ function Movies({ type }) {
                     searchWord={searchWord}
                     setSearchWord={setSearchWord}
                     type={type} />
-                {moviesShown &&
+                {isPreloaderOpen &&
+                    <MoviesPreloader isOpen={true} />
+                }
+                {moviesShown && !isPreloaderOpen &&
                     <MoviesCardList
                         savedMovies={savedMovies}
                         shorts={shorts}
@@ -86,7 +103,7 @@ function Movies({ type }) {
                         refreshLocalStorage={refreshLocalStorage}
                         type={type}
                         onCardDelete={onCardDelete}
-                        isPreloaderOpen={isPreloaderOpen} />
+                        error={error} />
                 }
             </main>
             <Footer />
