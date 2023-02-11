@@ -7,10 +7,14 @@ function MovieSearchForm({ setMovies, toggleShortsCheckbox, shorts, setSearchWor
 
     React.useEffect(() => {
         const searchWord = JSON.parse(localStorage.getItem('searchWord'));
-        if (searchWord && searchWord[type]) {
+        if (type === 'saved-movies') {
             setMovies(true);
-            setSearchWord(searchWord[type]);
-            setValue(searchWord[type]);
+            setSearchWord('');
+            setValue('');
+        } else if (type === 'movies' && searchWord) {
+            setMovies(true);
+            setSearchWord(searchWord);
+            setValue(searchWord);
         } else {
             setMovies(false);
             setSearchWord('');
@@ -26,10 +30,10 @@ function MovieSearchForm({ setMovies, toggleShortsCheckbox, shorts, setSearchWor
         evt.preventDefault();
         setMovies(true);
         setSearchWord(value);
-        const searchWord = JSON.parse(localStorage.getItem('searchWord'));
-        localStorage.setItem('searchWord', JSON.stringify({...searchWord, [type]: value}));
-        const n = JSON.parse(localStorage.getItem('n'));
-        localStorage.setItem('n', JSON.stringify({...n, [type]: 0}));
+        if(type==='movies') {
+            localStorage.setItem('searchWord', JSON.stringify(value));
+            localStorage.setItem('n', JSON.stringify(0));
+        }
     }
 
     return (
@@ -37,7 +41,7 @@ function MovieSearchForm({ setMovies, toggleShortsCheckbox, shorts, setSearchWor
             <form className="form" onSubmit={handleSubmit}>
                 <div className="form__icon"></div>
                 <div className="form__searchbar-container">
-                    <input className="form__search" type="text" onChange={onChange} value={value} placeholder="Фильмы" minLength={3} required></input>
+                    <input className="form__search" type="text" onChange={onChange} value={value} placeholder="Фильмы" required></input>
                     <button className="form__submit-button"></button>
                 </div>
                 <label className="form__checkbox-container">

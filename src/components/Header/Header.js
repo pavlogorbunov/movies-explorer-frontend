@@ -5,11 +5,11 @@ import AccountBar from "../AccountBar/AccountBar";
 
 import './header.css';
 
-function Header({ nav, loggedIn }) {
+function Header({ loggedIn }) {
     return (
         <header className="header">
             <Logo />
-            {nav && <Navigation />}
+            {loggedIn && <Navigation />}
             <AccountBar loggedIn={loggedIn} />
         </header>
     )

@@ -17,7 +17,7 @@ function Main() {
 
     return (
         <>
-            <Header nav={auth} loggedIn={auth}/>
+            <Header loggedIn={auth.email}/>
             <main className="main">
                 <Promo />
                 <AboutProject />

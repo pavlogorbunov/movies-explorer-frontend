@@ -19,6 +19,10 @@ function Movies({ type }) {
     const [error, setError] = useState('');
 
     useEffect(() => {
+        if (type === "saved-movies") {
+            setMoviesShown(true);
+            setShorts(false);
+        }
         if (moviesShown) {
             if (!localStorage.getItem('movies')) {
                 setIsPreloaderOpen(true);
@@ -28,16 +32,16 @@ function Movies({ type }) {
                     }).then(() => {
                         refreshLocalStorage().then(() => {
                             setIsPreloaderOpen(false);
-                            setError('')
+                            setError('');
                         });
                     })
-                    .catch(() => {
-                        setError(MOVIES_FETCH_ERROR);
-                    })
-                    .finally(() => {
-                        if (type === 'saved-movies') setMoviesShown(true);
-                        setIsPreloaderOpen(false);
-                    });
+                        .catch(() => {
+                            setError(MOVIES_FETCH_ERROR);
+                        })
+                        .finally(() => {
+                            if (type === 'saved-movies') setMoviesShown(true);
+                            setIsPreloaderOpen(false);
+                        });
                 });
             } else {
                 setIsPreloaderOpen(true);
@@ -47,24 +51,23 @@ function Movies({ type }) {
                 });
             }
 
-            const s = JSON.parse(localStorage.getItem('shorts'));
-            if (s) {
-                if (s[type]) {
-                    setShorts(s[type]);
+            if (type === 'movies') {
+                const s = JSON.parse(localStorage.getItem('shorts'));
+                if (s) {
+                    setShorts(s);
                 } else {
                     setShorts(false);
                 }
-            }
 
-            const search = JSON.parse(localStorage.getItem('searchWord'));
-            if (search && (search[type])) setSearchWord(search[type]);
-            else setSearchWord('');
+                const search = JSON.parse(localStorage.getItem('searchWord'));
+                if (search) setSearchWord(search);
+                else setSearchWord('');
+            }
         }
     }, [type, searchWord, moviesShown]);
 
     function toggleShortsCheckbox() {
-        const s = JSON.parse(localStorage.getItem('shorts'));
-        localStorage.setItem('shorts', JSON.stringify({ ...s, [type]: !shorts }));
+        if (type === 'movies') localStorage.setItem('shorts', JSON.stringify(!shorts));
         setShorts(!shorts);
     }
 
@@ -83,7 +86,7 @@ function Movies({ type }) {
 
     return (
         <>
-            <Header nav={true} loggedIn={true} />
+            <Header loggedIn={true} />
             <main className="main">
                 <MovieSearchForm
                     setMovies={setMoviesShown}

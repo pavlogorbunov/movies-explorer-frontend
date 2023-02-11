@@ -28,6 +28,7 @@ function Account({ edit }) {
         mainApi.patchUser(values.name, values.email)
             .then(data => {
                 setCurrentUser({ name: data.name, email: data.email, _id: data._id });
+                setAuth({email: data.email, isFetching: false});
                 setFormResultText('Данные успешно изменены');
                 setTimeout(setFormResultText, 2000, '');
             })
@@ -59,7 +60,7 @@ function Account({ edit }) {
 
     function onLogOut() {
         authorization.logout();
-        setAuth(null);
+        setAuth({email: null, isFetching: false});
         setCurrentUser({ name: '', email: '', _id: '' });
         localStorage.clear();
         navigate('/');
@@ -67,7 +68,7 @@ function Account({ edit }) {
 
     return (
         <section className="account">
-            <Header nav={true} loggedIn={true} />
+            <Header loggedIn={true} />
             <h2 className="account__header">Привет, {currentUser.name}!</h2>
             <form className="account__form" onSubmit={handleSubmit}>
                 <label className="account__form-label"><span className="account__form-input-name">Имя</span>

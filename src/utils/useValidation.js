@@ -15,11 +15,20 @@ function hideInputError(inputName) {
     errorElement.innerText = '';
 }
 
-function useValidation() {
+function useValidation(form) {
     const { currentUser } = useContext(CurrentUserContext);
     const [formValidity, setFormValidity] = useState(false);
     const [values, setValues] = useState({ name: currentUser.name, email: currentUser.email, password: '' });
     const [validity, setValidity] = useState({});
+
+    useEffect(() => {
+        if (form) {
+            const inputs = form.getElementsByTagName('input');
+            for (const input of inputs) {
+                setValidity(validity => ({ ...validity, [input.name]: false }));
+            }
+        }
+    }, [form]);
 
     function handleChange(e) {
         setValues({ ...values, [e.target.name]: e.target.value });

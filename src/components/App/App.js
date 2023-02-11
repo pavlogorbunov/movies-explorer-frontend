@@ -14,18 +14,20 @@ import { AuthContext } from '../../contexts/AuthContext';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({ name: '', email: '', _id: '' });
-  const [auth, setAuth] = React.useState(null);
-
-  const loggedIn = auth !== null;
+  const [auth, setAuth] = React.useState({ isFetching: true, email: null });
 
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    setAuth(auth => ({ ...auth, isFetching: true }));
     authorization.checkToken()
       .then((data) => {
-        setAuth({ email: data.email });
+        setAuth({ isFetching: false, email: data.email });
         setCurrentUser({ name: data.name, email: data.email, _id: data._id });
-      }).catch((err) => {});
+      })
+      .catch((err) => {
+        setAuth({ isFetching: false, email: null });
+      });
   }, [])
 
   function onSignUp(name, email, password) {
@@ -34,7 +36,7 @@ function App() {
         .then(() => {
           authorization.checkToken()
             .then((data) => {
-              setAuth({ email: data.email });
+              setAuth({ isFetching: false, email: data.email });
               setCurrentUser({ name: data.name, email: data.email, _id: data._id });
               navigate('/movies');
             })
@@ -47,7 +49,7 @@ function App() {
       .then(() => {
         authorization.checkToken()
           .then((data) => {
-            setAuth({ email: data.email });
+            setAuth({ email: data.email, isFetching: false });
             setCurrentUser({ name: data.name, email: data.email, _id: data._id });
             navigate('/movies');
           })
@@ -59,13 +61,13 @@ function App() {
       <AuthContext.Provider value={{ auth, setAuth }} >
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/movies" element={<ProtectedRoute loggedIn={loggedIn} />}>
+          <Route path="/movies" element={<ProtectedRoute auth={auth} />}>
             <Route path="/movies" element={<Movies type='movies' />} />
           </Route>
-          <Route path="/saved-movies" element={<ProtectedRoute loggedIn={loggedIn} />}>
+          <Route path="/saved-movies" element={<ProtectedRoute auth={auth} />}>
             <Route path="/saved-movies" element={<Movies type='saved-movies' />} />
           </Route>
-          <Route path="/account" element={<ProtectedRoute loggedIn={auth} />}>
+          <Route path="/account" element={<ProtectedRoute auth={auth} />}>
             <Route path="/account" element={<Account currentName={'Павел'} currentEmail={'email@gmail.com'} edit={false} />} />
           </Route>
           <Route path="/sign-up" element={<AuthForm type='sign-up' action={onSignUp} />} />

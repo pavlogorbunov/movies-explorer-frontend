@@ -3,6 +3,7 @@ import React from 'react';
 import './moviescardlist.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { mainApi } from '../../utils/MainApi';
+import { N, M, SHORTS_DURATION } from '../../utils/constants';
 
 function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalStorage, onCardDelete, isPreloaderOpen, error }) {
     const movies = JSON.parse(localStorage.getItem('movies'));
@@ -14,25 +15,18 @@ function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalSto
     }
 
     React.useEffect(() => {
-        renewN();
+        if (type === 'movies') renewN();
     }, [type, searchWord]); // eslint-disable-line
 
     function renewN() {
         const nFromLocalStorage = JSON.parse(localStorage.getItem('n'));
         const w = window.innerWidth;
-        if (!nFromLocalStorage) {
-            const newN = {};
-            newN[type] = 12;
-            if (w < 728) newN[type] = 8;
-            if (w < 480) newN[type] = 5;
+        if (!nFromLocalStorage || nFromLocalStorage === 0) {
+            let newN = N.desktop;
+            if (w < 728) newN = N.tablet;
+            if (w < 480) newN = N.mobile;
             localStorage.setItem('n', JSON.stringify(newN));
             setN(newN);
-        } else if ((!nFromLocalStorage[type]) || (nFromLocalStorage[type] === 0)) {
-            nFromLocalStorage[type] = 12;
-            if (w < 728) nFromLocalStorage[type] = 8;
-            if (w < 480) nFromLocalStorage[type] = 5;
-            localStorage.setItem('n', JSON.stringify(nFromLocalStorage));
-            setN(nFromLocalStorage);
         } else {
             setN(nFromLocalStorage);
         }
@@ -44,16 +38,16 @@ function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalSto
     }
 
     function search(movieData) {
-        if (!searchWord || searchWord === '***') return true;
-        return movieData.nameRU.toLowerCase().includes(searchWord.toLowerCase()) ||
-            movieData.nameEN.toLowerCase().includes(searchWord.toLowerCase()) ||
-            movieData.description.toLowerCase().includes(searchWord.toLowerCase()) ||
-            movieData.director.toLowerCase().includes(searchWord.toLowerCase());
+        if (!searchWord) return true;
+        return movieData.nameRU.toLowerCase().includes(searchWord.toLowerCase().trim()) ||
+            movieData.nameEN.toLowerCase().includes(searchWord.toLowerCase().trim()) ||
+            movieData.description.toLowerCase().includes(searchWord.toLowerCase().trim()) ||
+            movieData.director.toLowerCase().includes(searchWord.toLowerCase().trim());
     }
 
     function isShort(movieData) {
         if (!shorts) return true;
-        return movieData.duration <= 40;
+        return movieData.duration <= SHORTS_DURATION;
     }
 
     function onCardLike(movieData) {
@@ -65,12 +59,12 @@ function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalSto
     }
 
     function defineM() {
-        return window.innerWidth > 728 ? 3 : 2;
+        return window.innerWidth > 728 ? M.desktop : M.tablet;
     }
 
     function handleMoreButtonClick() {
-        setN({ ...n, [type]: n[type] + defineM() });
-        localStorage.setItem('n', JSON.stringify({ ...n, [type]: n[type] + defineM() }));
+        setN(n => (n + defineM()));
+        localStorage.setItem('n', JSON.stringify(n + defineM()));
     }
 
     return (
@@ -96,7 +90,7 @@ function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalSto
                                 onCardLike={onCardLike}
                                 onCardDelete={onCardDelete}
                                 refreshLocalStorage={refreshLocalStorage} />
-                        )).slice(0, n[type])}
+                        )).slice(0, n)}
                     {type === "saved-movies" && moviesList.length > 0 &&
                         moviesList.filter((movie) => { return movie.isLiked }).map(card => (
                             <MoviesCard
@@ -107,12 +101,9 @@ function MoviesCardList({ type, savedMovies, searchWord, shorts, refreshLocalSto
                                 onCardLike={onCardLike}
                                 onCardDelete={onCardDelete}
                                 refreshLocalStorage={refreshLocalStorage} />
-                        )).slice(0, n[type])}
+                        ))}
                 </ul>
-                {type === 'movies' && moviesList.length > n.movies &&
-                    <button className="cardlist__morebutton" onClick={handleMoreButtonClick}>Ещё</button>
-                }
-                {type === "saved-movies" && savedMovies.length > n['saved-movies'] &&
+                {type === 'movies' && moviesList.length > n &&
                     <button className="cardlist__morebutton" onClick={handleMoreButtonClick}>Ещё</button>
                 }
             </section>
