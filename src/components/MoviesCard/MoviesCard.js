@@ -1,16 +1,17 @@
 import React from 'react';
-import './moviescard.css';
-import cardImage from '../../images/card.jpg';
-import SaveCardButton from '../SaveCardButton/SaveCardButton';
-import DeleteCardButton from '../DeleteCardButton/DeleteCardButton';
 
-function MoviesCard({ cardData, type }) {
-    function durationTranslation(t) {
-        if (t > 60) {
-            return Math.floor(t / 60) + "ч " + t % 60 + "м";
-        } else {
-            return t % 60 + "м";
-        }
+import './moviescard.css';
+
+function MoviesCard({ cardData, type, durationTranslation, onCardLike, onCardDelete, refreshLocalStorage }) {
+    let cardButtonClass = "card__button";
+    if (cardData.isLiked) cardButtonClass += " card__button_selected"
+
+    function onMovieLike(evt) {
+        onCardLike(cardData).then(() => {
+            evt.target.classList.toggle("card__button_selected");
+            cardData.isLiked = !cardData.isLiked;
+            refreshLocalStorage();
+        });
     }
 
     return (
@@ -19,10 +20,16 @@ function MoviesCard({ cardData, type }) {
                 <h3 className="card__name">{cardData.nameRU}</h3>
                 <p className="card__duration">{durationTranslation(cardData.duration)}</p>
             </div>
-            {type === "saved-movies" && <DeleteCardButton />}
-            {type === "movies" && <SaveCardButton />}
+            {type === "saved-movies" &&
+                <button className="card__button card__button_type_delete" onClick={() => onCardDelete(cardData)}></button>
+            }
+            {type === "movies" &&
+                <button className={cardButtonClass} onClick={onMovieLike}></button>
+            }
             <div className="card__image-container">
-                <img title={cardData.id} className="card__image" src={cardImage} alt={"Кадр из фильма " + cardData.nameRU} ></img>
+                <a href={cardData.trailerLink} target="_blank" rel="noreferrer">
+                    <img title={cardData.id} className="card__image" src={'https://api.nomoreparties.co' + cardData.image.url} alt={"Кадр из фильма " + cardData.nameRU} ></img>
+                </a>
             </div>
         </li>
     )

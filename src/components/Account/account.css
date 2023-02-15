@@ -30,6 +30,7 @@
 
 .account__form-label {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     border-bottom: 1px solid #e8e8e8;
 }
@@ -38,9 +39,13 @@
     border: none;
 }
 
+.account__form-input-name {
+    margin: 16px 0 0;
+}
+
 .account__form-input {
     text-align: right;
-    margin: auto 0 auto auto;
+    margin: 16px 0 0 auto;
     padding: 0;
     flex-grow: 1;
     border: none;
@@ -55,7 +60,28 @@
 .account__form-input-noedit {
     text-align: right;
     padding: 0;
-    margin: auto 0 auto auto;
+    margin: 16px 0 0 auto;
+}
+
+.account__form-input-error {
+    height: 16px;
+    flex-basis: 100%;
+    color: rgb(255, 0, 0);
+    font-size: 12px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.account__form-result {
+    margin: auto auto 16px;
+    color: rgb(0, 196, 42);
+    text-align: center;
+}
+
+.account__form-result_err {
+    color: rgb(255, 0, 0);
 }
 
 .account__form-submit {
@@ -71,9 +97,14 @@
     transition: .3s;
 }
 
-.account__form-submit:hover {
+.account__form-submit:hover:enabled {
     background-size: 100% 1px;
     transition: .3s;
+}
+
+.account__form-submit:disabled {
+    opacity: .5;
+    cursor: default;
 }
 
 .account__signout {

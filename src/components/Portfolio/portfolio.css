@@ -34,7 +34,20 @@
     text-decoration: none;
     color: #000;
     margin: 0;
-    padding: 19px 0;
+    padding: 19px 19px 19px 0;
+    display: block;
+    width: 100%;
+    background-color: #fff;
+    background-image: url(../../images/arrow.svg);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 18px;
+    transition: .3s;
+}
+
+.portfolio__listitem-text:hover {
+    transform: translateX(-.5%);
+    transition: .3s;
 }
 
 .portfolio__listitem-arrow {
@@ -50,6 +63,7 @@
 
     .portfolio__listitem-text {
         font-size: 18px;
+        background-size: 12px;
     }
 
     .portfolio__listitem-arrow {
